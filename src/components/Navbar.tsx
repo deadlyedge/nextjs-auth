@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { buttonVariants } from './ui/button';
-import { HandMetal } from 'lucide-react';
+import Link from "next/link"
+import { buttonVariants } from "@/components/ui/button"
+import { HandMetal } from "lucide-react"
 
 const Navbar = () => {
   return (
@@ -14,7 +14,7 @@ const Navbar = () => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

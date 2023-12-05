@@ -1,6 +1,9 @@
-'use client';
+"use client"
 
-import { useForm } from 'react-hook-form';
+import Link from "next/link"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+
 import {
   Form,
   FormControl,
@@ -8,43 +11,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '../ui/form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '../ui/input';
-import { Button } from '../ui/button';
-import Link from 'next/link';
-import GoogleSignInButton from '../GoogleSignInButton';
+} from "@/components/ui/form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import GoogleSignInButton from "@/components/GoogleSignInButton"
 
 const FormSchema = z
   .object({
-    username: z.string().min(1, 'Username is required').max(100),
-    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    username: z.string().min(1, "Username is required").max(100),
+    email: z.string().min(1, "Email is required").email("Invalid email"),
     password: z
       .string()
-      .min(1, 'Password is required')
-      .min(8, 'Password must have than 8 characters'),
-    confirmPassword: z.string().min(1, 'Password confirmation is required'),
+      .min(1, "Password is required")
+      .min(8, "Password must have than 8 characters"),
+    confirmPassword: z.string().min(1, "Password confirmation is required"),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    path: ['confirmPassword'],
-    message: 'Password do not match',
-  });
+    path: ["confirmPassword"],
+    message: "Password do not match",
+  })
 
 const SignUpForm = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
     },
-  });
+  })
 
   const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
-  };
+    console.log(values)
+  }
 
   return (
     <Form {...form}>
@@ -126,7 +127,7 @@ const SignUpForm = () => {
         </Link>
       </p>
     </Form>
-  );
-};
+  )
+}
 
-export default SignUpForm;
+export default SignUpForm

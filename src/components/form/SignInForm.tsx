@@ -1,9 +1,11 @@
 "use client"
 
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { signIn } from "next-auth/react"
 
 import {
   Form,
@@ -26,6 +28,7 @@ const FormSchema = z.object({
 })
 
 const SignInForm = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -34,8 +37,18 @@ const SignInForm = () => {
     },
   })
 
-  const onSubmit = (values: z.infer<typeof FormSchema>) => {
-    console.log(values)
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
+    const signinData = await signIn("credentials", {
+      email: values.email,
+      password: values.password,
+      redirect: false,
+    })
+    console.log("[DATA]:", signinData)
+    if (signinData?.ok) {
+      router.push("/admin")
+    } else {
+      console.log("error")
+    }
   }
 
   return (
